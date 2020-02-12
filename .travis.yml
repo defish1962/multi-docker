@@ -22,4 +22,3 @@ after_success:
     - docker push defish1962/multi-nginx
     - docker push defish1962/multi-server
     - docker push defish1962/multi-worker
-
