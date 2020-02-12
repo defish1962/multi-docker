@@ -1,0 +1,23 @@
+language: generic
+sudo: required
+services: 
+    - docker
+
+before_install: 
+    - docker build -t defish1962/react-test -f ./client/Dockerfile.dev ./client
+
+script: 
+    - docker run -e CI=true defish1962/react-test npm test
+
+after_success:
+    - docker build -t defish1962/multi-client ./client
+    - docker build -t defish1962/multi-nginx ./nginx
+    - docker build -t defish1962/multi-server ./server
+    - docker build -t defish1962/worker ./worker
+    #Log in To Docker
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" -- password-stdin
+    - docker push defish1962/multi-client
+    - docker push defish1962/multi-nginx
+    - docker push defish1962/multi-server
+    - docker push defish1962/worker
+
