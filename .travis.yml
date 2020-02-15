@@ -16,9 +16,23 @@ after_success:
     - docker build -t defish1962/multi-nginx ./nginx
     - docker build -t defish1962/multi-server ./server
     - docker build -t defish1962/multi-worker ./worker
-    #Log in To Docker
+    #Log in To Docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - docker push defish1962/multi-client
     - docker push defish1962/multi-nginx
     - docker push defish1962/multi-server
     - docker push defish1962/multi-worker
+
+deploy: 
+    edge: true
+    provider: elasticbeanstalk
+    region: "us-east-2"
+    app: "multi-docker"
+    env: "MultiDocker-env"
+    bucket_name: "elasticbeanstalk-us-east-2-858993435643"
+    bucket_path: "docker-multi"
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    
