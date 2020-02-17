@@ -18,6 +18,7 @@
         {
             "name": "worker",
             "image": "defish1962/multi-worker",
+            "hostname": "worker",
             "essential": false,
             "memory": 128
         },
